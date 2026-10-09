@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elbe Móveis</title>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;600;700&family=Figtree:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bege:#EBDFC9;--bege-claro:#F7F0E2;--bege-escuro:#DCC9A6;--marrom:#C19A6B;--marrom-texto:#8F6A45;--tinta:#3B2A1D;--aviso:#FFE45C}
+*{box-sizing:border-box;margin:0}
+body{font-family:Figtree,Arial,sans-serif;background:var(--bege);color:var(--tinta);line-height:1.6}
+h1,h2,h3{font-family:'Familjen Grotesk',Arial,sans-serif;line-height:1.1}
+a:focus-visible,button:focus-visible{outline:3px solid var(--marrom-texto);outline-offset:2px}
+
+/* Campos a preencher */
+.preencher{background:var(--aviso);color:#3a3000;border:2px dashed #b39a00;border-radius:4px;padding:1px 6px;font-weight:500}
+body.sem-destaque .preencher{background:none;border:none;color:inherit;padding:0;font-weight:inherit}
+.barra-aviso{background:#3a3000;color:#fff;padding:10px 20px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;font-size:.92rem}
+.barra-aviso button{background:var(--aviso);border:0;padding:6px 14px;border-radius:4px;font-weight:600;cursor:pointer}
+
+header{background:var(--bege-escuro);color:var(--tinta);border-bottom:4px solid var(--marrom)}
+.topo{max-width:1100px;margin:auto;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.logo{font-family:'Familjen Grotesk',sans-serif;font-size:1.8rem;font-weight:700;letter-spacing:.02em}
+.logo span{color:var(--marrom-texto)}
+nav{display:flex;gap:6px}
+nav button{background:none;border:0;color:var(--tinta);font:600 1rem 'Familjen Grotesk',sans-serif;padding:10px 16px;cursor:pointer;border-bottom:3px solid transparent}
+nav button[aria-selected="true"]{border-bottom-color:var(--marrom-texto)}
+nav button:hover{background:var(--bege)}
+
+main{max-width:1100px;margin:auto;padding:40px 20px 60px}
+.aba{display:none}.aba.ativa{display:block}
+
+.hero{background:var(--marrom);color:var(--tinta);border-radius:6px;padding:56px 36px;margin-bottom:36px;position:relative;overflow:hidden}
+.hero h1{font-size:clamp(2.2rem,6vw,4rem);max-width:14ch;margin-bottom:18px}
+.hero p{max-width:52ch;margin-bottom:24px}
+.hero::after{content:"";position:absolute;right:-40px;bottom:-40px;width:260px;height:260px;border:30px solid var(--bege-claro);opacity:.45;border-radius:50% 0 50% 0}
+.btn{display:inline-block;background:var(--bege-claro);color:var(--tinta);font-weight:600;padding:12px 22px;border:0;border-radius:4px;cursor:pointer;font-size:1rem}
+
+h2{font-size:2rem;margin-bottom:8px}
+.sub{margin-bottom:28px;max-width:60ch}
+.grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+.produto{background:var(--bege-claro);border-radius:6px;overflow:hidden;border:1px solid var(--bege-escuro)}
+.foto{aspect-ratio:4/3;background:repeating-linear-gradient(45deg,#e8dac0,#e8dac0 12px,#dfcfae 12px,#dfcfae 24px);display:grid;place-items:center;padding:14px;text-align:center}
+.produto .corpo{padding:18px}
+.produto h3{font-size:1.3rem;margin:6px 0}
+.cat{font-size:.85rem;color:#7A5533;font-weight:600}
+
+.bloco{background:var(--bege-claro);border-left:8px solid var(--marrom);border-radius:6px;padding:28px;margin-bottom:24px}
+.bloco:nth-child(2){border-left-color:var(--marrom-texto)}
+.bloco h2{font-size:1.6rem}
+.valores{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:16px}
+.valor{background:var(--bege);padding:16px;border-radius:6px}
+.valor h3{font-size:1.1rem;margin-bottom:4px}
+
+.contato{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.info,.form{background:var(--bege-claro);border-radius:6px;padding:28px;border-left:8px solid var(--marrom)}
+.info h3,.form h3{font-size:1.3rem;margin-bottom:12px}
+.info dt{font-weight:600;margin-top:14px}
+.info dd{margin:0}
+.form label{display:block;font-weight:600;margin:14px 0 4px}
+.form input,.form textarea{width:100%;font:inherit;padding:10px;border:1px solid #b9a37f;border-radius:4px;background:#fff;color:var(--tinta)}
+.form textarea{min-height:130px;resize:vertical}
+.form .btn{background:var(--marrom);margin-top:16px}
+.erro{color:#8a1c1c;font-size:.88rem;min-height:1.3em}
+.ok{background:var(--bege);padding:14px;border-radius:4px;margin-top:14px;display:none}
+footer{background:var(--marrom);color:var(--tinta);padding:28px 20px;text-align:center;font-size:.92rem}
+@media(prefers-reduced-motion:no-preference){.aba.ativa{animation:entra .3s ease}@keyframes entra{from{opacity:0}to{opacity:1}}}
+@media(max-width:600px){.hero{padding:36px 22px}nav button{padding:10px 10px}}
+</style>
+</head>
+<body>
+
+<div class="barra-aviso">
+  <span><strong>Campos em amarelo</strong> = você precisa preencher. Faltam <strong id="contador">0</strong> campos.</span>
+  <button id="alternar" type="button">Ocultar destaque amarelo</button>
+</div>
+
+<header>
+  <div class="topo">
+    <div class="logo">Elbe<span>.</span> <span class="preencher" style="font-size:.9rem;font-family:Figtree">[PREENCHER: logotipo ou slogan, se houver]</span></div>
+    <nav role="tablist" aria-label="Seções do site">
+      <button role="tab" aria-selected="true" data-aba="inicio">Início</button>
+      <button role="tab" aria-selected="false" data-aba="produtos">Produtos</button>
+      <button role="tab" aria-selected="false" data-aba="identidade">Sobre</button>
+      <button role="tab" aria-selected="false" data-aba="contato">Contato</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ABA INÍCIO -->
+  <section id="inicio" class="aba ativa" role="tabpanel">
+    <div class="hero">
+      <h1>Móveis feitos para durar.</h1>
+      <p>A Elbe é uma indústria de móveis. <span class="preencher">[PREENCHER: frase curta sobre a empresa. Ex.: cidade, ano de fundação, o que a torna diferente]</span></p>
+      <button class="btn" data-ir="produtos" type="button">Ver produtos</button>
+    </div>
+  </section>
+
+  <!-- ABA PRODUTOS -->
+  <section id="produtos" class="aba" role="tabpanel">
+    <h2>Produtos fabricados pela Elbe</h2>
+    <p class="sub"><span class="preencher">[PREENCHER: frase de introdução sobre a linha de produtos]</span></p>
+    <div class="grade" id="grade"></div>
+    <p class="sub" style="margin-top:20px"><span class="preencher">[PREENCHER: para adicionar mais produtos, copie um bloco &lt;article class="produto"&gt; no código, ou acrescente um item na lista "produtos" no JavaScript]</span></p>
+  </section>
+
+  <!-- ABA IDENTIDADE -->
+  <section id="identidade" class="aba" role="tabpanel">
+	<h2>Quem somos</h2>
+    <p class="sub"><span class="preencher">[PREENCHER: texto de apresentação da Elbe, com 3 a 5 linhas. Conte a história, onde fica a fábrica e quem são os clientes]</span></p>
+    <div class="bloco">
+      <h2>Missão</h2>
+      <p><span class="preencher">[PREENCHER: missão da Elbe. Por que a empresa existe e o que entrega aos clientes]</span></p>
+    </div>
+    <div class="bloco">
+      <h2>Visão</h2>
+      <p><span class="preencher">[PREENCHER: visão da Elbe. Onde a empresa quer chegar no futuro]</span></p>
+    </div>
+    <div class="bloco">
+      <h2>Valores</h2>
+      <p><span class="preencher">[PREENCHER: frase opcional sobre os valores]</span></p>
+      <div class="valores">
+        <div class="valor"><h3><span class="preencher">[PREENCHER: valor 1]</span></h3><p><span class="preencher">[PREENCHER: explicação curta]</span></p></div>
+        <div class="valor"><h3><span class="preencher">[PREENCHER: valor 2]</span></h3><p><span class="preencher">[PREENCHER: explicação curta]</span></p></div>
+        <div class="valor"><h3><span class="preencher">[PREENCHER: valor 3]</span></h3><p><span class="preencher">[PREENCHER: explicação curta]</span></p></div>
+        <div class="valor"><h3><span class="preencher">[PREENCHER: valor 4, se houver]</span></h3><p><span class="preencher">[PREENCHER: explicação curta]</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABA CONTATO -->
+  <section id="contato" class="aba" role="tabpanel">
+    <h2>Contato</h2>
+    <p class="sub"><span class="preencher">[PREENCHER: frase de convite. Ex.: fale com a equipe da Elbe para pedir orçamento ou tirar dúvidas]</span></p>
+    <div class="contato">
+      <div class="info">
+        <h3>Fale com a Elbe</h3>
+        <dl>
+          <dt>Telefone</dt><dd><span class="preencher">[PREENCHER: telefone]</span></dd>
+          <dt>E-mail</dt><dd><span class="preencher">[PREENCHER: e-mail da empresa]</span></dd>
+          <dt>Endereço</dt><dd><span class="preencher">[PREENCHER: rua, número, bairro, cidade e CEP]</span></dd>
+          <dt>Horário de atendimento</dt><dd><span class="preencher">[PREENCHER: dias e horários]</span></dd>
+        </dl>
+      </div>
+      <div class="form">
+        <h3>Envie uma mensagem</h3>
+        <form id="form-contato" novalidate>
+          <label for="nome">Nome</label>
+          <input id="nome" name="nome" type="text" autocomplete="name">
+          <div class="erro" id="erro-nome"></div>
+          <label for="email">E-mail</label>
+          <input id="email" name="email" type="email" autocomplete="email">
+          <div class="erro" id="erro-email"></div>
+          <label for="mensagem">Mensagem</label>
+          <textarea id="mensagem" name="mensagem"></textarea>
+          <div class="erro" id="erro-mensagem"></div>
+          <button class="btn" type="submit">Enviar mensagem</button>
+        </form>
+        <div class="ok" id="ok" role="status">Mensagem enviada. Obrigado pelo contato!</div>
+        <p style="margin-top:14px"><span class="preencher">[PREENCHER: o formulário só simula o envio. Para enviar de verdade, é preciso um serviço de e-mail ou servidor]</span></p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © <span id="ano"></span> Elbe Móveis. Trabalho desenvolvido para o Mundo SENAI.<br>
+</footer>
+
+<script>
+// ====== PRODUTOS: edite aqui ======
+// Cada produto tem nome, categoria, descrição e foto (opcional).
+// Para usar foto, troque foto:"" pelo caminho da imagem. Ex.: foto:"imagens/sofa.jpg"
+const produtos = [
+  {nome:"[PREENCHER: nome do produto 1]", categoria:"[PREENCHER: categoria. Ex.: Sala]",    descricao:"[PREENCHER: descrição, material e medidas]", foto:""},
+  {nome:"[PREENCHER: nome do produto 2]", categoria:"[PREENCHER: categoria. Ex.: Quarto]",  descricao:"[PREENCHER: descrição, material e medidas]", foto:""},
+  {nome:"[PREENCHER: nome do produto 3]", categoria:"[PREENCHER: categoria. Ex.: Cozinha]", descricao:"[PREENCHER: descrição, material e medidas]", foto:""},
+  {nome:"[PREENCHER: nome do produto 4]", categoria:"[PREENCHER: categoria. Ex.: Escritório]", descricao:"[PREENCHER: descrição, material e medidas]", foto:""},
+  {nome:"[PREENCHER: nome do produto 5]", categoria:"[PREENCHER: categoria]", descricao:"[PREENCHER: descrição, material e medidas]", foto:""},
+  {nome:"[PREENCHER: nome do produto 6]", categoria:"[PREENCHER: categoria]", descricao:"[PREENCHER: descrição, material e medidas]", foto:""}
+];
+
+const grade = document.getElementById('grade');
+produtos.forEach(p=>{
+  const el = document.createElement('article');
+  el.className = 'produto';
+  const campo = t => t.startsWith('[PREENCHER') ? `<span class="preencher">${t}</span>` : t;
+  el.innerHTML = `
+    <div class="foto">${p.foto ? `<img src="${p.foto}" alt="${p.nome}" style="width:100%;height:100%;object-fit:cover">` : '<span class="preencher">[PREENCHER: foto do produto]</span>'}</div>
+    <div class="corpo">
+      <div class="cat">${campo(p.categoria)}</div>
+      <h3>${campo(p.nome)}</h3>
+      <p>${campo(p.descricao)}</p>
+    </div>`;
+  grade.appendChild(el);
+});
+
+// ====== Abas ======
+const botoes = document.querySelectorAll('nav button');
+function abrir(id){
+  document.querySelectorAll('.aba').forEach(a=>a.classList.toggle('ativa', a.id===id));
+  botoes.forEach(b=>b.setAttribute('aria-selected', b.dataset.aba===id));
+  window.scrollTo({top:0});
+}
+botoes.forEach(b=>b.addEventListener('click',()=>abrir(b.dataset.aba)));
+document.querySelectorAll('[data-ir]').forEach(b=>b.addEventListener('click',()=>abrir(b.dataset.ir)));
+
+// ====== Contador e destaque dos campos a preencher ======
+document.getElementById('contador').textContent = document.querySelectorAll('.preencher').length;
+document.getElementById('alternar').addEventListener('click',e=>{
+  const off = document.body.classList.toggle('sem-destaque');
+  e.target.textContent = off ? 'Mostrar destaque amarelo' : 'Ocultar destaque amarelo';
+});
+// ====== Formulário de contato ======
+const form = document.getElementById('form-contato');
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  const nome = form.nome.value.trim(), email = form.email.value.trim(), msg = form.mensagem.value.trim();
+  const erros = {
+    nome: nome ? '' : 'Digite seu nome.',
+    email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? '' : 'Digite um e-mail válido.',
+    mensagem: msg ? '' : 'Escreva sua mensagem.'
+  };
+  Object.keys(erros).forEach(k=>document.getElementById('erro-'+k).textContent = erros[k]);
+  const ok = document.getElementById('ok');
+  if(Object.values(erros).every(v=>!v)){ ok.style.display='block'; form.reset(); }
+  else { ok.style.display='none'; }
+});
+
+document.getElementById('ano').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
