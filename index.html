@@ -12,12 +12,6 @@ body{font-family:Figtree,Arial,sans-serif;background:var(--bege);color:var(--tin
 h1,h2,h3{font-family:'Familjen Grotesk',Arial,sans-serif;line-height:1.1}
 a:focus-visible,button:focus-visible{outline:3px solid var(--marrom-texto);outline-offset:2px}
 
-/* Campos a preencher */
-.preencher{background:var(--aviso);color:#3a3000;border:2px dashed #b39a00;border-radius:4px;padding:1px 6px;font-weight:500}
-body.sem-destaque .preencher{background:none;border:none;color:inherit;padding:0;font-weight:inherit}
-.barra-aviso{background:#3a3000;color:#fff;padding:10px 20px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;font-size:.92rem}
-.barra-aviso button{background:var(--aviso);border:0;padding:6px 14px;border-radius:4px;font-weight:600;cursor:pointer}
-
 header{background:var(--bege-escuro);color:var(--tinta);border-bottom:4px solid var(--marrom)}
 .topo{max-width:1100px;margin:auto;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
 .logo{font-family:'Familjen Grotesk',sans-serif;font-size:1.8rem;font-weight:700;letter-spacing:.02em}
@@ -69,12 +63,6 @@ footer{background:var(--marrom);color:var(--tinta);padding:28px 20px;text-align:
 </style>
 </head>
 <body>
-
-<div class="barra-aviso">
-  <span><strong>Campos em amarelo</strong> = você precisa preencher. Faltam <strong id="contador">0</strong> campos.</span>
-  <button id="alternar" type="button">Ocultar destaque amarelo</button>
-</div>
-
 <header>
   <div class="topo">
     <div class="logo">Elbe <span>Móveis</span></div>
@@ -165,7 +153,6 @@ footer{background:var(--marrom);color:var(--tinta);padding:28px 20px;text-align:
           <button class="btn" type="submit">Enviar mensagem</button>
         </form>
         <div class="ok" id="ok" role="status">Mensagem enviada. Obrigado pelo contato!</div>
-        <p style="margin-top:14px"><span class="preencher">[PREENCHER: o formulário só simula o envio. Para enviar de verdade, é preciso um serviço de e-mail ou servidor]</span></p>
       </div>
     </div>
   </section>
@@ -181,12 +168,12 @@ footer{background:var(--marrom);color:var(--tinta);padding:28px 20px;text-align:
 // Cada produto tem nome, categoria, descrição e foto (opcional).
 // Para usar foto, troque foto:"" pelo caminho da imagem. Ex.: foto:"imagens/sofa.jpg"
 const produtos = [
-  {nome:"[PREENCHER: nome do produto 1]", categoria:"[PREENCHER: categoria. Ex.: Sala]",    descricao:"[PREENCHER: descrição, material e medidas]", foto:"mesa.png"},
-  {nome:"[PREENCHER: nome do produto 2]", categoria:"[PREENCHER: categoria. Ex.: Quarto]",  descricao:"[PREENCHER: descrição, material e medidas]", foto:"estante.png"},
-  {nome:"[PREENCHER: nome do produto 3]", categoria:"[PREENCHER: categoria. Ex.: Cozinha]", descricao:"[PREENCHER: descrição, material e medidas]", foto:"mesa_reuniao.png"},
-  {nome:"[PREENCHER: nome do produto 4]", categoria:"[PREENCHER: categoria. Ex.: Escritório]", descricao:"[PREENCHER: descrição, material e medidas]", foto:"geladeira.png"},
-  {nome:"[PREENCHER: nome do produto 5]", categoria:"[PREENCHER: categoria]", descricao:"[PREENCHER: descrição, material e medidas]", foto:"pia.png"},
-  {nome:"[PREENCHER: nome do produto 6]", categoria:"[PREENCHER: categoria]", descricao:"[PREENCHER: descrição, material e medidas]", foto:"estante_industrial.png"}
+  {nome:"Mesa de escritório", categoria:"Escritório",    descricao:"<strong>Medidas:</strong> 120 cm (largura) × 60 cm (profundidade) × 75 cm (altura).<br><strong>Material:</strong> MDF amadeirado e estrutura reforçada.<br><strong>Descrição:</strong> Mesa moderna com gaveteiro lateral, ideal para computadores, documentos e atividades diárias de escritório.", foto:"mesa.png"},
+  {nome:"Estante organizadora", categoria:"Escritório",  descricao:"<strong>Medidas:</strong> 120 cm (largura) × 35 cm (profundidade) × 180 cm (altura).<br><strong>Material:</strong> MDF amadeirado e bege.<br><strong>Descrição:</strong> Estante com prateleiras abertas e armário inferior com portas, ideal para livros, pastas, objetos decorativos e materiais de escritório.", foto:"estante.png"},
+  {nome:"Mesa de reunião", categoria:"Escritório", descricao:"<strong>Medidas:</strong> 200 cm (largura) × 100 cm (profundidade) × 75 cm (altura).<br><strong>Material:</strong> MDF amadeirado com estrutura reforçada.<br><strong>Descrição:</strong> Mesa espaçosa para reuniões, planejamento de projetos e trabalho em equipe, com design moderno e acabamento elegante.", foto:"mesa_reuniao.png"},
+  {nome:"Geladeira Industrial em Inox – 4 Portas", categoria:"Cozinha", descricao:"<strong>Medidas:</strong> 120 cm (largura) × 70 cm (profundidade) × 200 cm (altura).<br><strong>Material:</strong> Aço inoxidável.<br><strong>Descrição:</strong> Refrigerador profissional ideal para restaurantes, hotéis e cozinhas industriais. Possui quatro portas independentes, estrutura em aço inoxidável e amplo espaço interno para armazenamento de alimentos.", foto:"geladeira.jpeg"},
+  {nome:"Pia Industrial em Inox – 1 Cuba", categoria:"Cozinha", descricao:"<strong>Medidas:</strong> 100 cm (largura) × 70 cm (profundidade) × 85 cm (altura).<br><strong>Material:</strong> Aço inoxidável.<br><strong>Descrição:</strong> Pia resistente, prática e funcional, desenvolvida para facilitar a higienização em cozinhas comerciais. Oferece uma cuba espaçosa e prateleira inferior.", foto:"pia.jpeg"},
+  {nome:"Estante Industrial Modular em L", categoria:"Cozinha", descricao:"<strong>Medidas:</strong> 150 cm × 150 cm (lados L) × 50 cm (profundidade) × 180 cm (altura).<br><strong>Material:</strong> Aço inoxidável.<br><strong>Descrição:</strong> Solução de armazenamento para cozinhas industriais, estoques e despensas. Seu formato em L permite aproveitar melhor os cantos e organizar diversos produtos.", foto:"estante_industrial.jpeg"}
 ];
 
 const grade = document.getElementById('grade');
@@ -214,12 +201,6 @@ function abrir(id){
 botoes.forEach(b=>b.addEventListener('click',()=>abrir(b.dataset.aba)));
 document.querySelectorAll('[data-ir]').forEach(b=>b.addEventListener('click',()=>abrir(b.dataset.ir)));
 
-// ====== Contador e destaque dos campos a preencher ======
-document.getElementById('contador').textContent = document.querySelectorAll('.preencher').length;
-document.getElementById('alternar').addEventListener('click',e=>{
-  const off = document.body.classList.toggle('sem-destaque');
-  e.target.textContent = off ? 'Mostrar destaque amarelo' : 'Ocultar destaque amarelo';
-});
 // ====== Formulário de contato ======
 const form = document.getElementById('form-contato');
 form.addEventListener('submit',e=>{
