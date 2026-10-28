@@ -151,6 +151,7 @@ footer{background:var(--marrom);color:var(--tinta);padding:28px 20px;text-align:
           <textarea id="mensagem" name="mensagem"></textarea>
           <div class="erro" id="erro-mensagem"></div>
           <button class="btn" type="submit">Enviar mensagem</button>
+          <div class="erro" id="erro-envio" role="alert"></div>
         </form>
         <div class="ok" id="ok" role="status">Mensagem enviada. Obrigado pelo contato!</div>
       </div>
@@ -202,6 +203,8 @@ botoes.forEach(b=>b.addEventListener('click',()=>abrir(b.dataset.aba)));
 document.querySelectorAll('[data-ir]').forEach(b=>b.addEventListener('click',()=>abrir(b.dataset.ir)));
 
 // ====== Formulário de contato ======
+// >>> COLOQUE AQUI O E-MAIL QUE VAI RECEBER AS MENSAGENS <<<
+const EMAIL_DESTINO = "SEU-EMAIL-AQUI@exemplo.com";
 const form = document.getElementById('form-contato');
 form.addEventListener('submit',e=>{
   e.preventDefault();
@@ -213,8 +216,30 @@ form.addEventListener('submit',e=>{
   };
   Object.keys(erros).forEach(k=>document.getElementById('erro-'+k).textContent = erros[k]);
   const ok = document.getElementById('ok');
-  if(Object.values(erros).every(v=>!v)){ ok.style.display='block'; form.reset(); }
-  else { ok.style.display='none'; }
+  if(Object.values(erros).some(v=>v)){ ok.style.display='none'; return; }
+
+  const botao = form.querySelector('button[type="submit"]');
+  const erroEnvio = document.getElementById('erro-envio');
+  erroEnvio.textContent = ''; ok.style.display = 'none';
+  botao.disabled = true; botao.textContent = 'Enviando...';
+
+  fetch('https://formsubmit.co/ajax/' + EMAIL_DESTINO, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json','Accept':'application/json'},
+    body: JSON.stringify({
+      nome: nome, email: email, mensagem: msg,
+      _subject: 'Nova mensagem pelo site Elbe Móveis',
+      _template: 'table',
+      _captcha: 'false'
+    })
+  })
+  .then(r=>r.json())
+  .then(d=>{
+    if(d.success === 'true' || d.success === true){ ok.style.display='block'; form.reset(); }
+    else { throw new Error(d.message || 'erro'); }
+  })
+  .catch(()=>{ erroEnvio.textContent = 'Não foi possível enviar agora. Tente novamente em instantes.'; })
+  .then(()=>{ botao.disabled = false; botao.textContent = 'Enviar mensagem'; });
 });
 
 document.getElementById('ano').textContent = new Date().getFullYear();
